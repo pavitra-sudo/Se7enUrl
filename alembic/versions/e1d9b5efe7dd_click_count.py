@@ -26,3 +26,5 @@ def upgrade() -> None:
 def downgrade() -> None:
     op.drop_column("shorturls", "click_count")
     
+    
+    

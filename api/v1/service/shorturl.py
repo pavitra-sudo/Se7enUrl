@@ -1,6 +1,4 @@
 
-from datetime import datetime
-
 from fastapi import HTTPException
 from fastapi.params import Depends
 from fastapi.responses import RedirectResponse
@@ -35,7 +33,7 @@ class ShortURLService:
 
     @staticmethod
     def get_shorturl(short_code: str, db: Session):
-        starttime = datetime.now()
+        
         key = f"url:{short_code}"
         
         # 1. Try cache
@@ -49,11 +47,8 @@ class ShortURLService:
             })
             db.commit()
             print(f"Cache hit: {key}")
-            print(f"Time taken: {(datetime.now() - starttime).total_seconds()} seconds")
-            
 
             return RedirectResponse(cached_url, status_code=307) #type: ignore
-        
 
         # 2. Fallback to DB
         url = db.query(ShortURL).filter(
@@ -74,5 +69,5 @@ class ShortURLService:
             ShortURL.click_count: ShortURL.click_count + 1
         })
         db.commit()
-        print(f"Time taken: {(datetime.now() - starttime).total_seconds()} seconds")
+
         return RedirectResponse(str(url.original_url), status_code=307)

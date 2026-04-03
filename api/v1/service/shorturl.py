@@ -30,7 +30,12 @@ class ShortURLService:
     @staticmethod
     def get_shorturl(short_code: str, db: Session):
         url = db.query(ShortURL).filter(ShortURL.short_code == short_code).first()
-        
+        db.query(ShortURL).filter(ShortURL.short_code == short_code).update({ShortURL.click_count: ShortURL.click_count + 1})
+
+
         if not url:
             raise HTTPException(status_code=404, detail="Short URL not found")
-        return RedirectResponse(str(url.original_url),status_code=307)
+        
+        db.commit()
+
+        return RedirectResponse(str(url.original_url), status_code=307)

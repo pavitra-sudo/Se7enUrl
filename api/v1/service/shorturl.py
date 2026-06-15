@@ -25,7 +25,12 @@ class ShortURLService:
         r.original_url = ShortURLService.normalize_url(r.original_url)
         url = ShortURL(original_url=r.original_url, short_code=r.short_code)
         db.add(url)
-        db.flush()
+        from sqlalchemy.exc import IntegrityError
+        try:
+            db.flush()
+        except IntegrityError:
+            db.rollback()
+            raise HTTPException(status_code=400, detail="Short code already exists. Please choose a different one.")
         db.refresh(url)
         return url
     

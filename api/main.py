@@ -23,5 +23,23 @@ app.add_middleware(
 # Include routers
 app.include_router(shorturl_router)
 
+from fastapi import Depends, HTTPException
+from sqlalchemy.orm import Session
+from api.v1.database.db_connector import get_db
+from api.v1.service.shorturl import ShortURLService
+
+@app.get("/{short_code}")
+def redirect_to_url(short_code: str, db: Session = Depends(get_db)):
+    # Ignore static files so they fall through to StaticFiles mount (though FastAPI matches routes first)
+    if short_code in ["style.css", "app.js", "favicon.ico", "index.html"]:
+        raise HTTPException(status_code=404)
+        
+    try:
+        return ShortURLService.get_shorturl(short_code, db)
+    except HTTPException as e:
+        if e.status_code == 404:
+            raise HTTPException(status_code=404, detail="Short URL not found")
+        raise e
+
 # Mount frontend static files to serve it together with the backend
 app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")

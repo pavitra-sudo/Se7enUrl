@@ -21,6 +21,13 @@ class ShortURLService:
     
     @staticmethod
     def post_shorturl(r: ShortURLRequest, db: Session ):
+        import string
+        import random
+        
+        if not r.short_code:
+            # Generate a random 7-character string
+            r.short_code = "".join(random.choices(string.ascii_letters + string.digits, k=7))
+            
         r.short_code = r.short_code.lower()
         r.original_url = ShortURLService.normalize_url(r.original_url)
         url = ShortURL(original_url=r.original_url, short_code=r.short_code)

@@ -6,9 +6,9 @@ class ShortURL(BaseModel):
     
     
     
-class ShortURLRequest(ShortURL):
-    pass
-
+class ShortURLRequest(BaseModel):
+    original_url: str
+    short_code: str | None = None
 
 class ShortURLResponse(ShortURL):
     id: int

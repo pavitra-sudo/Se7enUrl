@@ -10,9 +10,7 @@ services:
       - key: SERVER_PORT
         value: "8000"
       - key: DATABASE_URL
-        # If you want persistent data on Render, you should provision a PostgreSQL database
-        # and put its URL here. SQLite data will be wiped on every deployment.
-        value: "sqlite:///./se7enurl.db" 
+        sync: false # Paste your PostgreSQL URL here during setup
       - key: REDIS_HOST
         sync: false # You will enter this securely in the Render dashboard
       - key: REDIS_PORT

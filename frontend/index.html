@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Se7enUrl - Premium URL Shortener</title>
+    <meta name="description" content="A sleek, fast, and reliable URL shortener.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <main class="container">
+        <div class="glass-panel">
+            <header class="header">
+                <div class="logo">
+                    <span class="highlight">Se7en</span>Url
+                </div>
+                <p class="subtitle">Shorten your links with style</p>
+            </header>
+
+            <form id="url-form" class="form">
+                <div class="input-group">
+                    <label for="original_url">Original URL</label>
+                    <input type="url" id="original_url" name="original_url" placeholder="https://example.com/very/long/link" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="short_code">Custom Short Code <span class="optional">(Optional)</span></label>
+                    <input type="text" id="short_code" name="short_code" placeholder="e.g. my-link">
+                </div>
+
+                <button type="submit" id="submit-btn" class="btn">
+                    <span>Shorten URL</span>
+                    <div class="loader" id="btn-loader" style="display: none;"></div>
+                </button>
+            </form>
+
+            <div id="result-container" class="result-container hidden">
+                <p class="success-message">URL Shortened Successfully!</p>
+                <div class="result-box">
+                    <input type="text" id="shortened-url" readonly>
+                    <button id="copy-btn" class="copy-btn" title="Copy to clipboard">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+                <p id="copy-status" class="copy-status"></p>
+            </div>
+            
+            <div id="error-container" class="error-container hidden">
+                <p id="error-message"></p>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

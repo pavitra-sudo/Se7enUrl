@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: se7enurl
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn api.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: SERVER_HOST
+        value: "0.0.0.0"
+      - key: SERVER_PORT
+        value: "8000"
+      - key: DATABASE_URL
+        # If you want persistent data on Render, you should provision a PostgreSQL database
+        # and put its URL here. SQLite data will be wiped on every deployment.
+        value: "sqlite:///./se7enurl.db" 
+      - key: REDIS_HOST
+        sync: false # You will enter this securely in the Render dashboard
+      - key: REDIS_PORT
+        sync: false
+      - key: REDIS_USERNAME
+        sync: false
+      - key: REDIS_PASSWORD
+        sync: false
